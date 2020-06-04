@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "fa19f880-d54c-446f-af26-6bb4ad9d6dcc",
+		"name": "传入参数为md5加密",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://47.93.148.45/api_create_order/?sign={{sign}}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8f19eb2c-c918-4345-be5f-ce0ec2f8868c",
+						"exec": [
+							"var str = \"admin\";",
+							"var strcmd5 = CryptoJS.MD5(str);",
+							"postman.setGlobalVariable(\"sign\",strcmd5)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1565e693-21ba-417f-bc07-f40d5b1e4a58",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"luId\":1,\n\t\"guestNum\":3,\n\t\"checkInDate\":\"2020-04-30\",\n\t\"checkOutDate\":\"2020-05-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://47.93.148.45/api_create_order/?sign={{sign}}",
+					"protocol": "http",
+					"host": [
+						"47",
+						"93",
+						"148",
+						"45"
+					],
+					"path": [
+						"api_create_order",
+						""
+					],
+					"query": [
+						{
+							"key": "sign",
+							"value": "{{sign}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
