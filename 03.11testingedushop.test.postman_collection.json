@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "c75a8ef0-dead-4365-beba-8e20f9a32977",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "派斯汀-login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1526b7eb-71de-49f8-9007-4850c0ce06f7",
+						"exec": [
+							"pm.test(\"是否登录成功验证1\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.msg).to.eql(\"登陆成功\");",
+							"});",
+							"pm.test(\"是否登录成功验证2\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "13800138006",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "verify_code",
+							"value": "KNDC",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://www.testingedu.com.cn:8000/index.php?m=Home&c=User&a=do_login&t=0.6909894482532144",
+					"protocol": "http",
+					"host": [
+						"www",
+						"testingedu",
+						"com",
+						"cn"
+					],
+					"port": "8000",
+					"path": [
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "m",
+							"value": "Home"
+						},
+						{
+							"key": "c",
+							"value": "User"
+						},
+						{
+							"key": "a",
+							"value": "do_login"
+						},
+						{
+							"key": "t",
+							"value": "0.6909894482532144"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "派斯汀-加入购物车",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e932b82-bdbd-40af-a828-93ba889f5a96",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "goods_id=13&goods_prom_type=0&shop_price=1699.00&store_count=98&market_price=0.00&start_time=&end_time=&activity_title=&prom_detail=&activity_is_on=&item_id=1&exchange_integral=0&point_rate=10&is_virtual=0&virtual_limit=0&goods_spec%5B%E9%80%89%E6%8B%A9%E7%89%88%E6%9C%AC%5D=9&goods_spec%5B%E9%80%89%E6%8B%A9%E9%A2%9C%E8%89%B2%5D=11&goods_spec%5B%E5%A5%97%E9%A4%90%E7%B1%BB%E5%9E%8B%5D=15&goods_num=1"
+				},
+				"url": {
+					"raw": "http://www.testingedu.com.cn:8000/index.php?m=Home&c=Cart&a=ajaxAddCart",
+					"protocol": "http",
+					"host": [
+						"www",
+						"testingedu",
+						"com",
+						"cn"
+					],
+					"port": "8000",
+					"path": [
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "m",
+							"value": "Home"
+						},
+						{
+							"key": "c",
+							"value": "Cart"
+						},
+						{
+							"key": "a",
+							"value": "ajaxAddCart"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
