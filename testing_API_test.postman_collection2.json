@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "059ceb03-b849-4f7f-a933-324073249422",
+		"name": "testing_API_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{{url}}auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "074e1eb0-7b54-4660-bd84-e049d1bd5b26",
+						"exec": [
+							"var res=responseBody;",
+							"console.log(\"返回值是\",res)",
+							"var res = JSON.parse(res)",
+							"console.log(\"返回值是\",res)",
+							"var token = res.token",
+							"console.log(\"token是\",token)",
+							"",
+							"pm.environment.set(\"token\",token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}auth",
+					"host": [
+						"{{url}}auth"
+					]
+				},
+				"description": "获取token"
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c7c1937-81d3-47ee-b668-32851a14a5b0",
+						"exec": [
+							"pm.test(\"登录成功\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"恭喜您，登录成功\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "Will",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}login",
+					"host": [
+						"{{url}}login"
+					]
+				},
+				"description": "登录"
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7109f783-9dd2-446c-bcc6-d1752b58334e",
+						"exec": [
+							"pm.test(\"登出成功\", function () {\r",
+							"    pm.response.to.have.body('{\"status\":200,\"msg\":\"用户已退出登录\"}');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}logout",
+					"host": [
+						"{{url}}logout"
+					]
+				},
+				"description": "登出"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "aba0aa6c-dbd3-46d6-975f-8815ce7860da",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "256f0c0b-c8d6-471c-8d90-ea3099a82d32",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
