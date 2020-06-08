@@ -1,0 +1,993 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "059ceb03-b849-4f7f-a933-324073249422"
+    },
+    "item": [
+      {
+        "id": "7461a0b3-d4a9-455e-8a57-a51a27e1d444",
+        "name": "{{url}}auth",
+        "request": {
+          "description": {
+            "content": "获取token",
+            "type": "text/plain"
+          },
+          "url": {
+            "host": [
+              "{{url}}auth"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "method": "POST"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "3c5da77a-02d8-40ab-8c50-e74929ae34a1",
+              "type": "text/javascript",
+              "exec": [
+                "//针对返回的数据是json（使用JSON.parse）",
+                "var res = responseBody;",
+                "console.log(\"返回值是\", res)",
+                "var res = JSON.parse(res);",
+                "console.log(\"返回值是\", res)",
+                "var token = res.token;",
+                "console.log(\"token是\", token)",
+                "pm.globals.set(\"token\", token);",
+                "",
+                "// //针对返回的数据是text和json（使用正则）",
+                "// var token=responseBody.match(new RegExp('\"token\":\"(.*?)\"'))[1]",
+                "// console.log(token,token.type);",
+                "// pm.globals.set(\"token\", token);//注意设置的全局变量名不能相同",
+                "",
+                "pm.test(\"获取token成功\", function () {",
+                "    var jsonData = pm.response.json();",
+                "    pm.expect(jsonData.msg).to.eql(\"success\");",
+                "});",
+                ""
+              ],
+              "_lastExecutionId": "60e9d5e7-dd02-4198-b409-c38b2c9d3eeb"
+            }
+          }
+        ]
+      },
+      {
+        "id": "494629a0-2374-4c14-a3dc-9606266f7780",
+        "name": "{{url}}login",
+        "request": {
+          "description": {
+            "content": "登录",
+            "type": "text/plain"
+          },
+          "url": {
+            "host": [
+              "{{url}}login"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            },
+            {
+              "key": "token",
+              "value": "{{token}}"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "urlencoded",
+            "urlencoded": [
+              {
+                "key": "username",
+                "value": "Will"
+              },
+              {
+                "key": "password",
+                "value": "123456"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "9c7c1937-81d3-47ee-b668-32851a14a5b0",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test(\"登录成功\", function () {\r",
+                "    pm.expect(pm.response.text()).to.include(\"恭喜您，登录成功\");\r",
+                "});"
+              ],
+              "_lastExecutionId": "157ed946-dc4c-4092-9b7f-fc0a0069e5af"
+            }
+          }
+        ]
+      },
+      {
+        "id": "24a058ac-aa54-4557-abdd-60adeae57d24",
+        "name": "{{url}}logout",
+        "request": {
+          "description": {
+            "content": "登出",
+            "type": "text/plain"
+          },
+          "url": {
+            "host": [
+              "{{url}}logout"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "token",
+              "value": "{{token}}"
+            }
+          ],
+          "method": "POST"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "7109f783-9dd2-446c-bcc6-d1752b58334e",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test(\"登出成功\", function () {\r",
+                "    pm.response.to.have.body('{\"status\":200,\"msg\":\"用户已退出登录\"}');\r",
+                "});"
+              ],
+              "_lastExecutionId": "02e81a2f-fe95-4af2-bc9a-5827ae5b910e"
+            }
+          }
+        ]
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "id": "aba0aa6c-dbd3-46d6-975f-8815ce7860da",
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ],
+          "_lastExecutionId": "9ea3cf0d-0cf8-4a2b-bad7-79a75fdad2b1"
+        }
+      },
+      {
+        "listen": "test",
+        "script": {
+          "id": "256f0c0b-c8d6-471c-8d90-ea3099a82d32",
+          "type": "text/javascript",
+          "exec": [
+            "pm.test(\"Status code is 200\", function () {",
+            "    pm.response.to.have.status(200);",
+            "});"
+          ],
+          "_lastExecutionId": "66cefd31-0f5c-4930-b87b-18e3c85b3e9a"
+        }
+      }
+    ],
+    "protocolProfileBehavior": {},
+    "variable": [],
+    "info": {
+      "_postman_id": "059ceb03-b849-4f7f-a933-324073249422",
+      "name": "testing_API_test",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_at": "2020-06-08T03:58:37.381Z",
+      "postman_exported_using": "Postman/7.24.0"
+    },
+    "id": "5c52d0e2-ac19-4b19-9a3e-0c334f259693",
+    "name": "特斯汀接口测试",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://www.testingedu.com.cn:8081/inter/HTTP/",
+        "key": "url"
+      }
+    ]
+  },
+  "globals": {
+    "_": {
+      "postman_variable_scope": "globals",
+      "postman_exported_at": "2020-06-08T03:59:37.564Z",
+      "postman_exported_using": "Postman/7.24.0"
+    },
+    "id": "146e52f0-fd32-4814-8e58-8a3c0f4d5eb7",
+    "name": "My Workspace Globals",
+    "values": [
+      {
+        "type": "any",
+        "value": "",
+        "key": "sign"
+      },
+      {
+        "type": "any",
+        "value": "dbdd9147d7184f94b2b1d2c50eab6b38",
+        "key": "token"
+      }
+    ]
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 9,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 6,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 6,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 3,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 1006,
+      "responseMin": 50,
+      "responseMax": 2910,
+      "responseSd": 1346.3352727558863,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1591613125318,
+      "completed": 1591613129572
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 3,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "272af5c9-faf6-450f-92fd-c11cd720de24",
+          "httpRequestId": "2ca12a09-89be-4d81-802e-cd35b621bb20"
+        },
+        "item": {
+          "id": "7461a0b3-d4a9-455e-8a57-a51a27e1d444",
+          "name": "{{url}}auth",
+          "request": {
+            "description": {
+              "content": "获取token",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{url}}auth"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "3c5da77a-02d8-40ab-8c50-e74929ae34a1",
+                "type": "text/javascript",
+                "exec": [
+                  "//针对返回的数据是json（使用JSON.parse）",
+                  "var res = responseBody;",
+                  "console.log(\"返回值是\", res)",
+                  "var res = JSON.parse(res);",
+                  "console.log(\"返回值是\", res)",
+                  "var token = res.token;",
+                  "console.log(\"token是\", token)",
+                  "pm.globals.set(\"token\", token);",
+                  "",
+                  "// //针对返回的数据是text和json（使用正则）",
+                  "// var token=responseBody.match(new RegExp('\"token\":\"(.*?)\"'))[1]",
+                  "// console.log(token,token.type);",
+                  "// pm.globals.set(\"token\", token);//注意设置的全局变量名不能相同",
+                  "",
+                  "pm.test(\"获取token成功\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.msg).to.eql(\"success\");",
+                  "});",
+                  ""
+                ],
+                "_lastExecutionId": "60e9d5e7-dd02-4198-b409-c38b2c9d3eeb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "获取token",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8081",
+            "path": [
+              "inter",
+              "HTTP",
+              "auth"
+            ],
+            "host": [
+              "www",
+              "testingedu",
+              "com",
+              "cn"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.22.0",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d2ca4255-ba76-40d3-9326-4098d503f4d5",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "www.testingedu.com.cn:8081",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": 0,
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST"
+        },
+        "response": {
+          "id": "15daa69d-5287-417f-a81f-4106d2be15b0",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/html;charset=UTF-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "73"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 08 Jun 2020 10:45:06 GMT"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              50,
+              48,
+              48,
+              44,
+              34,
+              109,
+              115,
+              103,
+              34,
+              58,
+              34,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              100,
+              98,
+              100,
+              100,
+              57,
+              49,
+              52,
+              55,
+              100,
+              55,
+              49,
+              56,
+              52,
+              102,
+              57,
+              52,
+              98,
+              50,
+              98,
+              49,
+              100,
+              50,
+              99,
+              53,
+              48,
+              101,
+              97,
+              98,
+              54,
+              98,
+              51,
+              56,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2910,
+          "responseSize": 73
+        },
+        "id": "7461a0b3-d4a9-455e-8a57-a51a27e1d444",
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "获取token成功",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "eeab435c-fb80-4712-9dbb-344a4d3d8949",
+          "length": 3,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "73d5bc1c-01b2-4396-ac78-1227b7c6a0f8"
+        },
+        "item": {
+          "id": "494629a0-2374-4c14-a3dc-9606266f7780",
+          "name": "{{url}}login",
+          "request": {
+            "description": {
+              "content": "登录",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{url}}login"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "token",
+                "value": "{{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "Will"
+                },
+                {
+                  "key": "password",
+                  "value": "123456"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9c7c1937-81d3-47ee-b668-32851a14a5b0",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"登录成功\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"恭喜您，登录成功\");\r",
+                  "});"
+                ],
+                "_lastExecutionId": "157ed946-dc4c-4092-9b7f-fc0a0069e5af"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "登录",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8081",
+            "path": [
+              "inter",
+              "HTTP",
+              "login"
+            ],
+            "host": [
+              "www",
+              "testingedu",
+              "com",
+              "cn"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            },
+            {
+              "key": "token",
+              "value": "dbdd9147d7184f94b2b1d2c50eab6b38"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.22.0",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "93519164-d8b7-4328-8965-086431785e49",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "www.testingedu.com.cn:8081",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": 29,
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "urlencoded",
+            "urlencoded": [
+              {
+                "key": "username",
+                "value": "Will"
+              },
+              {
+                "key": "password",
+                "value": "123456"
+              }
+            ]
+          }
+        },
+        "response": {
+          "id": "6dad407f-dda0-42fe-ac9d-ed8411eab71b",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/html;charset=UTF-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "60"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 08 Jun 2020 10:45:06 GMT"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              50,
+              48,
+              48,
+              44,
+              34,
+              109,
+              115,
+              103,
+              34,
+              58,
+              34,
+              230,
+              129,
+              173,
+              229,
+              150,
+              156,
+              230,
+              130,
+              168,
+              239,
+              188,
+              140,
+              231,
+              153,
+              187,
+              229,
+              189,
+              149,
+              230,
+              136,
+              144,
+              229,
+              138,
+              159,
+              34,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              105,
+              100,
+              34,
+              58,
+              34,
+              49,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 58,
+          "responseSize": 60
+        },
+        "id": "494629a0-2374-4c14-a3dc-9606266f7780",
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "登录成功",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "60aa09f2-9af3-48b5-9168-b16ceffd5774",
+          "length": 3,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "af92b3b5-850d-4432-8f2d-2049e3ba4514"
+        },
+        "item": {
+          "id": "24a058ac-aa54-4557-abdd-60adeae57d24",
+          "name": "{{url}}logout",
+          "request": {
+            "description": {
+              "content": "登出",
+              "type": "text/plain"
+            },
+            "url": {
+              "host": [
+                "{{url}}logout"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "token",
+                "value": "{{token}}"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7109f783-9dd2-446c-bcc6-d1752b58334e",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"登出成功\", function () {\r",
+                  "    pm.response.to.have.body('{\"status\":200,\"msg\":\"用户已退出登录\"}');\r",
+                  "});"
+                ],
+                "_lastExecutionId": "02e81a2f-fe95-4af2-bc9a-5827ae5b910e"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "登出",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "8081",
+            "path": [
+              "inter",
+              "HTTP",
+              "logout"
+            ],
+            "host": [
+              "www",
+              "testingedu",
+              "com",
+              "cn"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "token",
+              "value": "dbdd9147d7184f94b2b1d2c50eab6b38"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.22.0",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "300c0a2b-b0bc-4e3f-b799-089184fcd119",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "www.testingedu.com.cn:8081",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": 0,
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST"
+        },
+        "response": {
+          "id": "3f7af3f1-cc9a-41af-ad5b-2754e5a97c97",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/html;charset=UTF-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "44"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 08 Jun 2020 10:45:07 GMT"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              50,
+              48,
+              48,
+              44,
+              34,
+              109,
+              115,
+              103,
+              34,
+              58,
+              34,
+              231,
+              148,
+              168,
+              230,
+              136,
+              183,
+              229,
+              183,
+              178,
+              233,
+              128,
+              128,
+              229,
+              135,
+              186,
+              231,
+              153,
+              187,
+              229,
+              189,
+              149,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 50,
+          "responseSize": 44
+        },
+        "id": "24a058ac-aa54-4557-abdd-60adeae57d24",
+        "assertions": [
+          {
+            "assertion": "Status code is 200",
+            "skipped": false
+          },
+          {
+            "assertion": "登出成功",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 177
+    },
+    "failures": [],
+    "error": null
+  }
+}

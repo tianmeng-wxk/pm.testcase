@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="testing_API_test" tests="3" time="3.018">
+  <testsuite name="{{url}}auth" id="7461a0b3-d4a9-455e-8a57-a51a27e1d444" timestamp="2020-06-08T10:45:25.318Z" tests="2" failures="0" errors="0" time="2.910">
+    <testcase name="Status code is 200" time="2.910" classname="TestingApiTest"/>
+    <testcase name="获取token成功" time="2.910" classname="TestingApiTest"/>
+  </testsuite>
+  <testsuite name="{{url}}login" id="494629a0-2374-4c14-a3dc-9606266f7780" timestamp="2020-06-08T10:45:25.318Z" tests="2" failures="0" errors="0" time="0.058">
+    <testcase name="Status code is 200" time="0.058" classname="TestingApiTest"/>
+    <testcase name="登录成功" time="0.058" classname="TestingApiTest"/>
+  </testsuite>
+  <testsuite name="{{url}}logout" id="24a058ac-aa54-4557-abdd-60adeae57d24" timestamp="2020-06-08T10:45:25.318Z" tests="2" failures="0" errors="0" time="0.050">
+    <testcase name="Status code is 200" time="0.050" classname="TestingApiTest"/>
+    <testcase name="登出成功" time="0.050" classname="TestingApiTest"/>
+  </testsuite>
+</testsuites>

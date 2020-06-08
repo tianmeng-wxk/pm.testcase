@@ -1,0 +1,14 @@
+{
+	"id": "5c52d0e2-ac19-4b19-9a3e-0c334f259693",
+	"name": "特斯汀接口测试",
+	"values": [
+		{
+			"key": "url",
+			"value": "http://www.testingedu.com.cn:8081/inter/HTTP/",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2020-06-08T03:58:37.381Z",
+	"_postman_exported_using": "Postman/7.24.0"
+}
